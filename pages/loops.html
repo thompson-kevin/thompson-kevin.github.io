@@ -5,9 +5,33 @@
 </head>
 <html>
 <body>
-<h1>CIT 261 Loops, Conditional Statements, Functions, Variables, Parameters, Arrays, Associative Arrays</h1>
-<a href="./">Home</a>
+<h1>Loops, Conditional Statements, Functions, Variables, Parameters, Arrays, Associative Arrays</h1>
+<a href="../">Home</a>
 
-<button onclick="hello()">Say Hello</button>
+<div class="container">
+    <h2>Go ahead and play with the page by clicking on various buttons and filling out the forms.</h2>
+
+    <div class="row">
+        <div style="display: flex;">
+            <div style="flex: 1;">
+                <input type="number" id="countdown"/>
+                <button onclick="countdown()">Countdown!</button>
+                <div id="countdown-output">Output</div>
+            </div>
+
+            <div style="flex: 1;">
+                <input type="number" id="firstNumber"/>
+                <input type="number" id="secondNumber"/>
+                <input type="number" id="thirdNumber"/>
+                <input type="number" id="fourthNumber"/>
+                <button onclick="add()">Add (using Arrays...)</button>
+                <div id="add-output">Output</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 </body>
 </html>
