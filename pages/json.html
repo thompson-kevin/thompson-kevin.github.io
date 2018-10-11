@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <title>JSON</title>
+    <script src="../javascript/json.js"></script>
+</head>
+<html>
+<body>
+<h1>JSON Parse and Stringify, along with an API weather service!</h1>
+<a href="../">Home</a>
+
+<div class="container">
+    <h2>Insert a Zip and send away for the weather in that area!</h2>
+
+    <label>Insert a Zip Code
+        <input type="number" id="zip"/>
+    </label>
+    <button onclick="getWeather()">Get the Weather</button>
+    <div>The Current Weather Description:</div>
+    <div id="weather-output"></div>
+    <div>The raw JSON response 'Stringified':</div>
+    <div id="raw-output"></div>
+</div>
+</body>
+</html>
