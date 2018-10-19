@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <title>Storage</title>
+    <script src="../javascript/storage.js"></script>
+</head>
+<html>
+<body>
+<h1>Storage API with simple data, arrays, associative arrays, and objects!</h1>
+<a href="../">Home</a>
+
+<div class="container">
+    <button onclick="refreshPage()">Refresh Page</button>
+
+    <button onclick="clearStorage()">Clear Local Storage</button>
+</div>
+
+<h2>Prepare for storage</h2>
+<div class="container">
+    <div style="display: grid;">
+        <!--Basic-->
+        <div style="grid-row: 1; grid-column: 1;">
+            Name the Key Here
+        </div>
+        <div style="grid-row: 1; grid-column: 2;">
+            Values go here
+        </div>
+        <div style="grid-row: 1; grid-column: 3;">
+            Items currently in storage
+        </div>
+
+        <div style="grid-row: 2; grid-column: 1;">
+            <input type="text" id="basicProperty"/>
+            <br/>
+            <button onclick="storeBasicData()">Store my Basic Data!</button>
+        </div>
+
+        <div style="grid-row: 2; grid-column: 2;">
+            <input type="text" id="basicValue"/>
+        </div>
+
+        <div style="grid-row: 2; grid-column-start: 3; grid-column-end: 100;">
+            <div id="storage-output"></div>
+        </div>
+
+        <div style="grid-row: 3; grid-column: 1;">
+        </div>
+
+        <!--Array-->
+        <div style="grid-row: 4; grid-column: 1; padding-top: 16px;">
+            Insert a number and add to array:
+        </div>
+
+        <div style="grid-row: 4; grid-column: 2; padding-top: 16px;">
+            Current Array values:
+        </div>
+
+        <div style="grid-row: 5; grid-column: 1;">
+            <input type="number" id="array-number"/>
+            <button onclick="addToArray()">Add this number to my Array!</button>
+            <br/>
+            <button onclick="storeArray()">Store my Array!</button>
+        </div>
+
+        <div style="grid-row: 5; grid-column: 2;">
+            <div id="array-value-output"></div>
+        </div>
+
+        <!--Object/Associative Array-->
+        <div style="grid-row: 6; grid-column: 1; padding-top: 16px;">
+            Name the Properties Here
+        </div>
+        <div style="grid-row: 6; grid-column: 2;">
+            Give the Properties Value Here
+        </div>
+
+        <div style="grid-row: 7; grid-column: 1;">
+            <input type="text" id="firstProperty"/>
+        </div>
+        <div style="grid-row: 8; grid-column: 1;">
+            <input type="text" id="secondProperty"/>
+        </div>
+        <div style="grid-row: 9; grid-column: 1;">
+            <input type="text" id="thirdProperty"/>
+            <br/>
+            <button onclick="storeObject()">Store my JavaScript Object!</button>
+        </div>
+
+        <div style="grid-row: 7; grid-column: 2;">
+            <input type="text" id="firstValue"/>
+        </div>
+        <div style="grid-row: 8; grid-column: 2;">
+            <input type="text" id="secondValue"/>
+        </div>
+        <div style="grid-row: 9; grid-column: 2;">
+            <input type="text" id="thirdValue"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
