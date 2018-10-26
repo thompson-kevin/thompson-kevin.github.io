@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <title>CSS3</title>
+    <link rel="stylesheet" href="../css/css3.css">
+    <script src="../javascript/css3.js"></script>
+</head>
+<html>
+<body>
+<h1>Play a game to mess with CSS3 and JavaScript, including Transitions and Animations!</h1>
+<a href="../">Home</a>
+<h2>Change the box!</h2>
+<button onclick="boxDance()" id="danceBox">Dance, box, dance!</button>
+<button onclick="boxColor()" id="colorBox">Random color change!</button>
+<button onclick="boxShrink()" id="shrinkBox">Scare the Box!</button>
+<button onclick="boxReturns()" id="returnBox" disabled>Encourage the Box!</button>
+<h2>Move the box!</h2>
+<div id="gameBoard">
+    <div id="box"></div>
+</div>
+
+<div id="controls">
+    <button onmousedown="moveUp()">UP</button>
+    <button onmousedown="moveDown()">DOWN</button>
+    <button onmousedown="moveLeft()" >LEFT</button>
+    <button onmousedown="moveRight()">RIGHT</button>
+    (You can use keyboard arrows)
+</div>
+</body>
+</html>
