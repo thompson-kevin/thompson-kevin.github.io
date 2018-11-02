@@ -7,13 +7,16 @@ function onLoad() {
     this.body = document.body;
     this.box = document.getElementById('box');
     this.noteBox = document.getElementById('note');
-    this.box.style.width = '600px';
-    this.box.style.height = '600px';
+    this.box.style.width = '300px';
+    this.box.style.height = '300px';
+    this.body.style.backgroundColor = 'grey';
     this.box.style.backgroundColor = this.randomColor();
-    this.box.addEventListener("touchstart", handleStart, false);
-    this.box.addEventListener("touchend", handleEnd, false);
-    this.box.addEventListener("touchcancel", handleCancel, false);
-    this.box.addEventListener("touchmove", handleMove, false);
+    var el = document.getElementsByTagName("canvas")[0];
+    el.style.backgroundColor = 'white';
+    el.addEventListener("touchstart", handleStart, false);
+    el.addEventListener("touchend", handleEnd, false);
+    el.addEventListener("touchcancel", handleCancel, false);
+    el.addEventListener("touchmove", handleMove, false);
 }
 
 function mouseOver() {
@@ -35,7 +38,7 @@ function randomColor() {
     return "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
 }
 
-// not my code, but I get what it's doing
+
 function handleStart(evt) {
   evt.preventDefault();
   console.log("touchstart.");
@@ -54,8 +57,7 @@ function handleStart(evt) {
     console.log("touchstart:" + i + ".");
   }
 }
-
-function handleMove(evt) {
+ function handleMove(evt) {
   evt.preventDefault();
   var el = document.getElementsByTagName("canvas")[0];
   var ctx = el.getContext("2d");
@@ -83,8 +85,7 @@ function handleMove(evt) {
     }
   }
 }
-
-function handleEnd(evt) {
+ function handleEnd(evt) {
   evt.preventDefault();
   log("touchend");
   var el = document.getElementsByTagName("canvas")[0];
@@ -148,6 +149,5 @@ function ongoingTouchIndexById(idToFind) {
 }
 
 function log(msg) {
-  var p = document.getElementById('log');
-  p.innerHTML = msg + "\n" + p.innerHTML;
+  console.log(msg);
 }

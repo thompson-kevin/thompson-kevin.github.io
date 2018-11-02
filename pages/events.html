@@ -5,19 +5,24 @@
 </head>
 <html>
 <body onload="onLoad()">
-    <h1>Click mouseover and mouseout! (you missed the onload...it already happened!)</h1>
-    <a href="../">Home</a>
-    <h2>
-        Draw in the box with your finger...
-        <span id="note"></span>
-    </h2>
-    <canvas id="box"
+    <div style="display: flex;">
+        <canvas id="canvas" width="600" height="600" style="border:solid black 1px;">
+            Your browser does not support canvas element.
+        </canvas>
+        <div style="padding-left: 16px;">
+            <h2>
+                Draw in the box with your finger...
+            </h2>
+            <div>
+                <a href="../">Home</a>
+            </div>
+        </div>
+    </div>
+    <h2>Click mouseover and mouseout! (you missed the onload...it already happened!)</h2><span id="note"></span>
+    <div id="box"
          onmouseover="mouseOver()"
          onmouseout="mouseOut()"
-         onclick="onClick()"
-         style="text-align: center;"
-    ></canvas>
-
+         onclick="onClick()"></div>
     <div>
         <audio autoplay controls>
             <source src="../assets/classical.mp3" type="audio/mp3">
