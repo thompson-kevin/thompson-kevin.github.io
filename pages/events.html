@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+    <title>Events and Tags</title>
+    <script src="../javascript/events.js"></script>
+</head>
+<html>
+<body onload="onLoad()">
+    <h1>Click mouseover and mouseout! (you missed the onload...it already happened!)</h1>
+    <a href="../">Home</a>
+    <h2>
+        Draw in the box with your finger...
+        <span id="note"></span>
+    </h2>
+    <canvas id="box"
+         onmouseover="mouseOver()"
+         onmouseout="mouseOut()"
+         onclick="onClick()"
+         style="text-align: center;"
+    ></canvas>
+
+    <div>
+        <audio autoplay controls>
+            <source src="../assets/classical.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+</body>
+</html>
