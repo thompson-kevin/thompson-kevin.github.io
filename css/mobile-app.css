@@ -1,0 +1,27 @@
+html {
+    font-family: arial;
+}
+body {
+    color: #26282D;
+}
+navbar {
+    padding: 16px;
+    background-color: #B2CCE6;
+}
+
+#title {
+    font-size: 55px;
+    white-space: no-wrap;
+    flex:1;
+}
+#return-link {
+    text-align: right;
+}
+
+#weather-icon {
+    width: 50%;
+}
+
+#seven-day-forecast {
+    display: flex;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <title>Your Weather Now</title>
+    <script src="../javascript/mobile-app.js"></script>
+    <link rel="stylesheet" href="../css/mobile-app.css">
+</head>
+<html>
+<body>
+<navbar style="display:flex;">
+    <div id="title">Your Weather Now</div>
+    <div id="return-link">
+        <a href="../">Return to code site</a>
+    </div>
+</navbar>
+
+<div class="container">
+    <h2>Your weather where you are</h2>
+    <div id="weather-icon">
+
+    </div>
+    <div id="seven-day-forecast">
+
+    </div>
+
+
+    <label>Find weather somewhere else
+        <input type="number" id="zip"/>
+    </label>
+    <button onclick="getWeather()">Get the Weather</button>
+    <div>The Current Weather Description:</div>
+    <div id="weather-output"></div>
+    <div>The raw JSON response 'Stringified':</div>
+    <div id="raw-output"></div>
+</div>
+</body>
+</html>
