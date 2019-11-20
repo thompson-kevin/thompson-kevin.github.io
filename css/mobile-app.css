@@ -13,6 +13,7 @@ navbar {
     font-size: 55px;
     white-space: no-wrap;
     flex:1;
+    font-weight: bold;
 }
 #return-link {
     text-align: right;
@@ -22,6 +23,44 @@ navbar {
     width: 50%;
 }
 
-#seven-day-forecast {
-    display: flex;
+#forecast {
+    font-size: 120px;
+}
+
+.container {
+    padding: 32px;
+}
+
+.btn {
+    background-color: #4CAF50;
+    border: none;
+    color: #FFFFFF;
+    padding: 15px 32px;
+    text-align: center;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    text-decoration: none;
+    font-size: 32px;
+    cursor: pointer;
+    margin-left: 32px;
+}
+
+#zip {
+    height:78px;
+    font-size:50pt;
+    width: 25%;
+    padding-left:2%;
+}
+
+@-webkit-keyframes shake {
+  from { transform: rotate(-30deg); }
+  to { transform: rotate(30deg); }
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
 }

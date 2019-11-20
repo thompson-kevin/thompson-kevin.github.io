@@ -1,36 +1,28 @@
 <!DOCTYPE html>
 <head>
-    <title>Your Weather Now</title>
+    <title>Happy Weather</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue.css">
     <script src="../javascript/mobile-app.js"></script>
     <link rel="stylesheet" href="../css/mobile-app.css">
 </head>
 <html>
-<body>
+<body onload="onLoad()">
 <navbar style="display:flex;">
-    <div id="title">Your Weather Now</div>
+    <div id="title">Happy Weather</div>
     <div id="return-link">
         <a href="../">Return to code site</a>
     </div>
 </navbar>
 
 <div class="container">
-    <h2>Your weather where you are</h2>
-    <div id="weather-icon">
-
+    <div style="display: flex;">
+        <input  type="number" id="zip" placeholder="Zip"/>
+        <button class="btn" onclick="getWeather()">Find happy weather somewhere</button>
     </div>
-    <div id="seven-day-forecast">
-
-    </div>
-
-
-    <label>Find weather somewhere else
-        <input type="number" id="zip"/>
-    </label>
-    <button onclick="getWeather()">Get the Weather</button>
-    <div>The Current Weather Description:</div>
-    <div id="weather-output"></div>
-    <div>The raw JSON response 'Stringified':</div>
-    <div id="raw-output"></div>
+    <div id="weather-icon"></div>
+    <div id="forecast"></div>
 </div>
 </body>
 </html>
