@@ -10,7 +10,7 @@ navbar {
 }
 
 #title {
-    font-size: 55px;
+    font-size: 36px;
     white-space: no-wrap;
     flex:1;
     font-weight: bold;
@@ -24,7 +24,7 @@ navbar {
 }
 
 #forecast {
-    font-size: 120px;
+    font-size: 16px;
 }
 
 .container {
@@ -40,16 +40,14 @@ navbar {
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
     text-decoration: none;
-    font-size: 32px;
+    font-size: 16px;
     cursor: pointer;
-    margin-left: 32px;
 }
 
 #zip {
-    height:78px;
-    font-size:50pt;
-    width: 25%;
-    padding-left:2%;
+    height:50%;
+    font-size:16pt;
+    width: 75%;
 }
 
 @-webkit-keyframes shake {
@@ -63,4 +61,8 @@ navbar {
   50% { transform: rotate(0deg); }
   75% { transform: rotate(15deg); }
   100% { transform: rotate(0deg); }
+}
+
+#outputBox {
+    color: red;
 }

@@ -18,11 +18,15 @@
 
 <div class="container">
     <div style="display: flex;">
-        <input  type="number" id="zip" placeholder="Zip"/>
-        <button class="btn" onclick="getWeather()">Find happy weather somewhere</button>
+        <div>
+            <input  type="number" id="zip" placeholder="Zip"/>
+            <p id="outputBox"></p>
+        </div>
+        <button class="btn" onclick="getWeather()">Find happy weather</button>
     </div>
-    <div id="weather-icon"></div>
-    <div id="forecast"></div>
+    <div style="display: flex;">
+        <div id="forecast"></div>
+    </div>
 </div>
 </body>
 </html>

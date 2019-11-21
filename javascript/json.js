@@ -26,10 +26,3 @@ function getWeather() {
     }
 }
 
-function printWarning(message, outputBox) {
-    outputBox.innerHTML = message;
-}
-
-function printResponse(response, outputBox) {
-    outputBox.innerHTML = response;
-}

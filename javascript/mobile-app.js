@@ -1,19 +1,33 @@
 var currentWeatherBox;
+var currentForecastBox;
 var currentZipCode;
 var currentWeather;
+var weatherHistory = [];
+var weatherInformationHTML = '<div>$CityName</div><div>$WeatherDescription</div><div>$Temp&deg;</div>';
+var imageHtml = '<img src="$src" style="animation-name: shake; animation-duration: 4s; animation-iteration-count: infinite; animation-timing-function: linear;">'
+var lat;
+var long;
 
 function onLoad() {
     this.currentWeatherBox = document.getElementById('weather-icon');
-    this.postalCodeLookup()
+    this.currentForecastBox = document.getElementById('forecast');
+    this.getWeatherByLatitudeAndLongitudeLookup();
 }
 
 function getWeather() {
     var zipCode = document.getElementById('zip').value;
-    this.getWeatherFromApi(zipCode);
+    this.getWeatherFromZipCode(zipCode);
 }
 
-function getWeatherFromApi(zipCode) {
-    if (zipCode.length === 5) {
+function getWeatherByLatitudeAndLongitudeLookup() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getPosition);
+    }
+}
+
+function getWeatherFromZipCode(zipCode) {
+    this.printWarning('', outputBox);
+    if (zipCode.length === 5 && weatherHistory[currentWeather.name] == null) {
         var oReq = new XMLHttpRequest();
         var url = 'https://api.openweathermap.org/data/2.5/weather?zip={zipCode},us&APPID=3b7c61b3e3937e09f648d488b3aebcfa';
         url = url.replace('{zipCode}', zipCode);
@@ -21,28 +35,55 @@ function getWeatherFromApi(zipCode) {
         oReq.onreadystatechange = function() {
             if (oReq.readyState === 4) {
                 var response = JSON.parse(oReq.response);
-                currentWeather = response;
-                updateWeatherIcon();
+                if (response.cod !== '404') {
+                    currentWeather = response;
+                    weatherHistory[currentWeather.name] = response;
+                    updateWeatherInformation();
+                } else {
+                    printWarning('Invalid zip code.', outputBox);
+                }
             }
           }
         oReq.send();
+    } else if (weatherHistory[currentWeather.name] != null) {
+        // TODO create new list with option at the top?
     } else {
-        this.printWarning('That is not a valid zip code. Please input a 5 digit Zip', outputBox);
+        printWarning('Invalid zip code.', outputBox);
     }
 }
 
 function updateWeatherIcon() {
-        let image = document.createElement("img");
-    if (this.currentWeather != null && this.currentWeatherBox.childElementCount === 0) {
-        image.src = getWeatherImageSrc();
-        this.currentWeatherBox.appendChild(image);
-    } else {
-        this.currentWeatherBox.children[0].src = getWeatherImageSrc();
-    }
-    this.currentWeatherBox.children[0].style.animationName = 'shake';
-    this.currentWeatherBox.children[0].style.animationDuration = '4s';
-    this.currentWeatherBox.children[0].style.animationIterationCount = 'infinite';
-    this.currentWeatherBox.children[0].style.animationTimingFunction = 'linear';
+    var image = document.createElement("img");
+    image.src = getWeatherImageSrc();
+    image.style.animationName = 'shake';
+    image.style.animationDuration = '4s';
+    image.style.animationIterationCount = 'infinite';
+    image.style.animationTimingFunction = 'linear';
+    return image;
+}
+
+function updateWeatherInformation() {
+    var image = updateWeatherIcon();
+    var weatherInfo = weatherInformationHTML;
+    weatherInfo = weatherInfo.replace('$CityName', currentWeather.name);
+    weatherInfo = weatherInfo.replace('$WeatherDescription', currentWeather.weather[0].description.charAt(0).toUpperCase() + currentWeather.weather[0].description.slice(1));
+    weatherInfo = weatherInfo.replace('$Temp', convertKelvinToF(currentWeather.main.temp));
+
+    var infoWrapper = document.createElement('div');
+    infoWrapper.id = currentWeather.name;
+    infoWrapper.innerHTML = weatherInfo;
+
+    var weatherWrapper = document.createElement('div');
+    weatherWrapper.style.display = 'flex';
+    weatherWrapper.appendChild(image);
+    weatherWrapper.appendChild(infoWrapper);
+
+    currentForecastBox.prepend(weatherWrapper);
+}
+
+function convertKelvinToF(tempInK) {
+    var tempInF = (+tempInK - 273.15) * (9/5) + 32;
+    return Math.floor(tempInF * 100 / 100);
 }
 
 function getWeatherImageSrc() {
@@ -67,40 +108,34 @@ function getWeatherImageSrc() {
     }
 }
 
-function postalCodeLookup() {
-//    var head= document.getElementsByTagName('head')[0],
-//        script= document.createElement('script');
-//    script.src= '//maps.googleapis.com/maps/api/js?sensor=false';
-//    head.appendChild(script);
-//    script.onload = function() {
-//        if (navigator.geolocation) {
-//            this.currentZipCode = this.currentZipCode,
-//                fallback = setTimeout(function () {
-//                    fail('10 seconds expired');
-//                }, 10000);
-//
-//            navigator.geolocation.getCurrentPosition(function (pos) {
-//                clearTimeout(fallback);
-//                var point = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-//                new google.maps.Geocoder().geocode({'latLng': point}, function (res, status) {
-//                    if (status == google.maps.GeocoderStatus.OK && typeof res[0] !== 'undefined') {
-//                        var zip = res[0].formatted_address.match(/,\s\w{2}\s(\d{5})/);
-//                        if (zip) {
-//                            this.currentZipCode = zip[1];
-//                        } else fail('Unable to look-up postal code');
-//                    } else {
-//                        fail('Unable to look-up geolocation');
-//                    }
-//                });
-//            }, function (err) {
-//                fail(err.message);
-//            });
-//        } else {
-//            alert('Unable to find your location.');
-//        }
-//        function fail(err) {
-//            console.log('err', err);
-//            this.currentZipCode = 'Try Again.';
-//        }
-//    };
+function getPosition(position) {
+  lat = position.coords.latitude;
+  long = position.coords.longitude;
+  var oReq = new XMLHttpRequest();
+              var url = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&APPID=3b7c61b3e3937e09f648d488b3aebcfa';
+
+              url = url.replace('{lat}', this.lat.toString());
+              url = url.replace('{lon}', this.long.toString());
+              oReq.open('GET', url);
+              oReq.onreadystatechange = function() {
+                  if (oReq.readyState === 4) {
+                      var response = JSON.parse(oReq.response);
+                      if (response.cod !== '404') {
+                          currentWeather = response;
+                          weatherHistory[currentWeather.name] = response;
+                          updateWeatherInformation();
+                      } else {
+                          printWarning('Invalid zip code.', outputBox);
+                      }
+                  }
+                }
+              oReq.send();
+}
+
+function printWarning(message, outputBox) {
+    outputBox.innerHTML = message;
+}
+
+function printResponse(response, outputBox) {
+    outputBox.innerHTML = response;
 }
