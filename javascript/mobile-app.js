@@ -133,6 +133,7 @@ function convertKelvinToF(tempInK) {
 function getWeatherImageSrc(weatherInformation) {
     switch(weatherInformation.weather[0].main) {
         case "Clouds":
+        case "Mist":
             return "../assets/weather-icons/cloud_night_weather_smiley.svg";
         case "Sunny":
             return "../assets/weather-icons/sun_smile_happy.svg";
