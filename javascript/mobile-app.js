@@ -1,12 +1,9 @@
 var currentWeatherBox;
 var currentForecastBox;
-var currentZipCode;
 var weatherHistory = [];
 var zip;
-var weatherInformationHTML = '<div>$CityName</div><div>$WeatherDescription</div><div>$Temp&deg;</div>';
 var imageHtml = '<img src="$src" style="animation-name: shake; animation-duration: 4s; animation-iteration-count: infinite; animation-timing-function: linear;">'
-var lat;
-var long;
+var weatherInformationHTML = '<div>$CityName</div><div>$WeatherDescription<span id="$id" onclick="deleteWeather(this.id)">-</span></div><div>$Temp&deg;</div>';
 
 function onLoad() {
     this.currentWeatherBox = document.getElementById('weather-icon');
@@ -19,8 +16,16 @@ function onLoad() {
       }
     });
     zip.focus();
-    this.getWeatherByLatitudeAndLongitudeLookup();
-
+    var storedData = JSON.parse(localStorage.getItem('weatherHistory'));
+    if (storedData && storedData.length > 0) {
+        storedData.forEach(weather => {
+                this.getWeatherByLatitudeAndLongitudeLookup(weather.coord.lat, weather.coord.lon);
+        });
+    } else {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getPosition);
+        }
+    }
 }
 
 function getWeather() {
@@ -28,10 +33,26 @@ function getWeather() {
     this.getWeatherFromZipCode(zipCode);
 }
 
-function getWeatherByLatitudeAndLongitudeLookup() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getPosition);
+function getWeatherByLatitudeAndLongitudeLookup(lat, lon) {
+    var oReq = new XMLHttpRequest();
+    var url = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&APPID=3b7c61b3e3937e09f648d488b3aebcfa';
+
+    url = url.replace('{lat}', lat.toString());
+    url = url.replace('{lon}', lon.toString());
+    oReq.open('GET', url);
+    oReq.onreadystatechange = function() {
+        if (oReq.readyState === 4) {
+            var response = JSON.parse(oReq.response);
+            if (response.cod !== '404') {
+                weatherHistory.push(response);
+                updateWeatherInformation();
+                localStorage.setItem('weatherHistory', JSON.stringify(weatherHistory));
+            } else {
+                printWarning('Invalid zip code.', outputBox);
+            }
+        }
     }
+    oReq.send();
 }
 
 function getWeatherFromZipCode(zipCode) {
@@ -45,7 +66,6 @@ function getWeatherFromZipCode(zipCode) {
             if (oReq.readyState === 4) {
                 var response = JSON.parse(oReq.response);
                 if (response.cod !== '404') {
-                    clearWeatherInformation();
                     var newList = [];
                     newList.push(response);
                     weatherHistory.forEach(weather => {
@@ -57,10 +77,9 @@ function getWeatherFromZipCode(zipCode) {
                     if (weatherHistory.length > 3) {
                         weatherHistory.pop();
                     }
-                    weatherHistory.forEach(weather => {
-                        updateWeatherInformation(weather);
-                    });
+                    updateWeatherInformation();
                     zip.value = '';
+                    localStorage.setItem('weatherHistory', JSON.stringify(weatherHistory));
                 } else {
                     printWarning('Invalid zip code.', outputBox);
                 }
@@ -82,25 +101,28 @@ function updateWeatherIcon(weatherInformation) {
     return image;
 }
 
-function updateWeatherInformation(weatherInformation) {
-    var image = updateWeatherIcon(weatherInformation);
-    var weatherInfo = weatherInformationHTML;
-    weatherInfo = weatherInfo.replace('$CityName', weatherInformation.name);
-    weatherInfo = weatherInfo.replace('$WeatherDescription', weatherInformation.weather[0].description.charAt(0).toUpperCase() + weatherInformation.weather[0].description.slice(1));
-    weatherInfo = weatherInfo.replace('$Temp', convertKelvinToF(weatherInformation.main.temp));
+function updateWeatherInformation() {
+    clearWeatherInformation();
+    weatherHistory.forEach(weatherInformation => {
+        var image = updateWeatherIcon(weatherInformation);
+        var weatherInfo = weatherInformationHTML;
+        weatherInfo = weatherInfo.replace('$CityName', weatherInformation.name);
+        weatherInfo = weatherInfo.replace('$WeatherDescription', weatherInformation.weather[0].description.charAt(0).toUpperCase() + weatherInformation.weather[0].description.slice(1));
+        weatherInfo = weatherInfo.replace('$Temp', convertKelvinToF(weatherInformation.main.temp));
+        weatherInfo = weatherInfo.replace('$id', weatherInformation.name);
 
-    var infoWrapper = document.createElement('div');
-    infoWrapper.id = weatherInformation.name;
-    infoWrapper.style.padding = '8px';
-    infoWrapper.style.width = '20em';
-    infoWrapper.innerHTML = weatherInfo;
+        var infoWrapper = document.createElement('div');
+        infoWrapper.style.padding = '8px';
+        infoWrapper.style.width = '20em';
+        infoWrapper.innerHTML = weatherInfo;
 
-    var weatherWrapper = document.createElement('div');
-    weatherWrapper.style.display = 'flex';
-    weatherWrapper.appendChild(image);
-    weatherWrapper.appendChild(infoWrapper);
+        var weatherWrapper = document.createElement('div');
+        weatherWrapper.style.display = 'flex';
+        weatherWrapper.appendChild(image);
+        weatherWrapper.appendChild(infoWrapper);
 
-    currentForecastBox.append(weatherWrapper);
+        currentForecastBox.append(weatherWrapper);
+    });
 }
 
 function convertKelvinToF(tempInK) {
@@ -131,26 +153,23 @@ function getWeatherImageSrc(weatherInformation) {
 }
 
 function getPosition(position) {
-  lat = position.coords.latitude;
-  long = position.coords.longitude;
-  var oReq = new XMLHttpRequest();
-  var url = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&APPID=3b7c61b3e3937e09f648d488b3aebcfa';
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+    getWeatherByLatitudeAndLongitudeLookup(lat, long)
+}
 
-  url = url.replace('{lat}', this.lat.toString());
-  url = url.replace('{lon}', this.long.toString());
-  oReq.open('GET', url);
-  oReq.onreadystatechange = function() {
-      if (oReq.readyState === 4) {
-          var response = JSON.parse(oReq.response);
-          if (response.cod !== '404') {
-              weatherHistory.push(response);
-              updateWeatherInformation(response);
-          } else {
-              printWarning('Invalid zip code.', outputBox);
-          }
-      }
+function deleteWeather(cityName) {
+    var index = -1;
+    for (var i = 0; i < weatherHistory.length; i++) {
+        if (weatherHistory[i].name == cityName) {
+            index = i;
+        }
     }
-  oReq.send();
+    if (index != -1) {
+        weatherHistory.splice(index, 1);
+        localStorage.setItem('weatherHistory', JSON.stringify(weatherHistory));
+        updateWeatherInformation();
+    }
 }
 
 function clearWeatherInformation() {
