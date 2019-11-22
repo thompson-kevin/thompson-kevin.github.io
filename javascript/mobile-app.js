@@ -112,7 +112,7 @@ function updateWeatherInformation() {
         weatherInfo = weatherInfo.replace('$id', weatherInformation.name);
 
         var infoWrapper = document.createElement('div');
-        infoWrapper.style.padding = '8px';
+        infoWrapper.style.padding = '24px';
         infoWrapper.style.width = '20em';
         infoWrapper.innerHTML = weatherInfo;
 
