@@ -3,7 +3,7 @@ var currentForecastBox;
 var weatherHistory = [];
 var zip;
 var imageHtml = '<img src="$src" style="animation-name: shake; animation-duration: 4s; animation-iteration-count: infinite; animation-timing-function: linear;">'
-var weatherInformationHTML = '<div>$CityName</div><div>$WeatherDescription<span class="icon glyphicon glyphicon-minus" id="$id" onclick="deleteWeather(this.id)"></span></div><div>$Temp&deg;</div>';
+var weatherInformationHTML = '<div>$CityName<span class="icon glyphicon glyphicon-minus" id="$id" onclick="deleteWeather(this.id)"></span></div><div>$WeatherDescription</div><div>$Temp&deg;</div>';
 
 function onLoad() {
     this.currentWeatherBox = document.getElementById('weather-icon');
