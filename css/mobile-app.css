@@ -66,3 +66,12 @@ navbar {
 #outputBox {
     color: red;
 }
+
+.icon {
+    color: #3395CF;
+}
+
+.icon:hover {
+    cursor: pointer;
+    color: blue;
+}
